@@ -1,0 +1,989 @@
+```html
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tech Pro Media | Digital Services & Subscriptions</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            },
+            dark: {
+              bg: '#0b0f19',
+              card: '#111827',
+              border: '#1f2937',
+              surface: '#172033',
+              muted: '#9ca3af'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'Segoe UI', 'Roboto', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts for crisp typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #0b0f19;
+      color: #f3f4f6;
+      font-family: 'Inter', 'Cairo', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Glassmorphism Effect */
+    .glass-nav {
+      background: rgba(11, 15, 25, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(31, 41, 55, 0.8);
+    }
+
+    .glass-card {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .glass-card:hover {
+      border-color: rgba(59, 130, 246, 0.4);
+      box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Glow Background Accents */
+    .glow-accent {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Modal Animation */
+    .modal-enter {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    .modal-enter-active {
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 200ms ease-out, transform 200ms ease-out;
+    }
+    .modal-exit {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .modal-exit-active {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 150ms ease-in, transform 150ms ease-in;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0b0f19;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1f2937;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #374151;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased selection:bg-blue-600 selection:text-white">
+
+  <!-- Background Glow FX -->
+  <div class="glow-accent w-[350px] h-[350px] bg-blue-600/15 top-[-50px] left-[-50px]"></div>
+  <div class="glow-accent w-[400px] h-[400px] bg-indigo-600/10 top-[400px] right-[-100px]"></div>
+
+  <!-- NAVIGATION BAR -->
+  <header class="sticky top-0 z-40 glass-nav transition-all duration-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20 group-hover:scale-105 transition-transform">
+          <svg class="w-6 h-6 stroke-current fill-none" viewBox="0 0 24 24" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-extrabold tracking-tight text-white group-hover:text-blue-400 transition-colors">TECH PRO MEDIA</span>
+          <span class="text-[10px] tracking-widest text-gray-400 font-semibold uppercase -mt-1">Digital Solutions</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Links -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-300">
+        <a href="#services" id="navServices" class="hover:text-blue-400 transition-colors">All Services</a>
+        <a href="#whyUs" id="navWhyUs" class="hover:text-blue-400 transition-colors">Why Choose Us</a>
+        <a href="#faq" id="navFaq" class="hover:text-blue-400 transition-colors">FAQs</a>
+        <a href="#reviews" id="navReviews" class="hover:text-blue-400 transition-colors">Reviews</a>
+      </nav>
+
+      <!-- Action Controls -->
+      <div class="flex items-center gap-3">
+        <!-- Language Switcher Button -->
+        <button id="langToggleBtn" onclick="toggleLanguage()" class="flex items-center gap-2 px-3.5 py-2 rounded-lg bg-gray-800/80 hover:bg-gray-700/80 text-gray-200 text-xs font-semibold border border-gray-700/60 transition-all active:scale-95">
+          <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1 4h6m-1 0v10M4 11h12M5 19l6-8m-6 0l6 8"/>
+          </svg>
+          <span id="langBtnText">العربية</span>
+        </button>
+
+        <!-- Primary Support CTA -->
+        <a id="headerSupportBtn" href="https://wa.me/201152187945" target="_blank" class="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-md shadow-blue-600/20 transition-all active:scale-95">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/>
+          </svg>
+          <span id="headerSupportText">WhatsApp Support</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-grow">
+    
+    <!-- HERO SECTION -->
+    <section class="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+      <!-- Status Badge -->
+      <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-semibold mb-6">
+        <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+        <span id="heroBadge">Official & Fast Digital Services</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 id="heroTitle" class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight max-w-4xl mx-auto mb-6">
+        Elevate Your Digital Workflow With Premium Subscriptions
+      </h1>
+
+      <!-- Description -->
+      <p id="heroDesc" class="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed mb-10">
+        Get instant access to top AI models, creative suites, streaming platforms, and utility apps at guaranteed lowest prices. Fast delivery and 24/7 dedicated support.
+      </p>
+
+      <!-- Primary Action Buttons -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+        <a href="#services" id="heroExploreBtn" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-sm shadow-xl shadow-blue-600/25 transition-all active:scale-95 flex items-center justify-center gap-2">
+          <span id="heroExploreText">Browse All Subscriptions</span>
+          <svg class="w-4 h-4 rtl:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+
+        <a id="heroSupportBtn" href="https://wa.me/201152187945" target="_blank" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold text-sm border border-gray-700 transition-all active:scale-95 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4 text-emerald-400 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+          </svg>
+          <span id="heroSupportText">Chat On WhatsApp</span>
+        </a>
+      </div>
+
+      <!-- Quick Trust Indicators Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto pt-8 border-t border-gray-800/80 text-left rtl:text-right">
+        <div class="p-3 rounded-lg bg-gray-900/40 border border-gray-800/50">
+          <div class="text-white font-bold text-lg">100%</div>
+          <div id="trust1" class="text-xs text-gray-400">Guaranteed Subscriptions</div>
+        </div>
+        <div class="p-3 rounded-lg bg-gray-900/40 border border-gray-800/50">
+          <div class="text-white font-bold text-lg">&lt; 15 Mins</div>
+          <div id="trust2" class="text-xs text-gray-400">Average Activation Speed</div>
+        </div>
+        <div class="p-3 rounded-lg bg-gray-900/40 border border-gray-800/50">
+          <div class="text-white font-bold text-lg">24 / 7</div>
+          <div id="trust3" class="text-xs text-gray-400">WhatsApp Live Support</div>
+        </div>
+        <div class="p-3 rounded-lg bg-gray-900/40 border border-gray-800/50">
+          <div class="text-white font-bold text-lg">Best Price</div>
+          <div id="trust4" class="text-xs text-gray-400">Unbeatable Market Rates</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      
+      <!-- Section Header -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+        <div>
+          <h2 id="servicesTitle" class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mb-2">Available Subscriptions</h2>
+          <p id="servicesSub" class="text-gray-400 text-sm">Explore our verified catalog and order instantly via WhatsApp.</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-80">
+          <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Search services..." class="w-full bg-gray-900/90 text-white placeholder-gray-500 text-sm rounded-xl pl-10 rtl:pl-4 rtl:pr-10 pr-4 py-3 border border-gray-800 focus:outline-none focus:border-blue-500 transition-all">
+          <svg class="w-4 h-4 text-gray-500 absolute left-3.5 rtl:left-auto rtl:right-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar" id="categoryContainer">
+        <!-- Rendered dynamically via JS -->
+      </div>
+
+      <!-- Services Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="servicesGrid">
+        <!-- Service cards rendered dynamically -->
+      </div>
+
+      <!-- Empty Search State -->
+      <div id="emptyState" class="hidden text-center py-16 glass-card rounded-2xl border border-gray-800">
+        <svg class="w-12 h-12 text-gray-600 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <h3 id="emptyTitle" class="text-lg font-semibold text-gray-300 mb-1">No services found</h3>
+        <p id="emptyDesc" class="text-gray-500 text-xs">Try searching for another keyword or change your category filter.</p>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE US SECTION -->
+    <section id="whyUs" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-800/60">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 id="whyTitle" class="text-2xl sm:text-3xl font-extrabold text-white mb-3">Why Tech Pro Media?</h2>
+        <p id="whyDesc" class="text-gray-400 text-sm">We provide reliable digital subscriptions with total transparency, speed, and safety.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Feature Card 1 -->
+        <div class="glass-card p-6 rounded-2xl border border-gray-800/80">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <h3 id="feature1Title" class="text-lg font-bold text-white mb-2">Instant Delivery</h3>
+          <p id="feature1Desc" class="text-gray-400 text-xs leading-relaxed">Subscriptions are processed quickly after purchase so you can start using your plan without unnecessary delays.</p>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="glass-card p-6 rounded-2xl border border-gray-800/80">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <h3 id="feature2Title" class="text-lg font-bold text-white mb-2">100% Guaranteed & Safe</h3>
+          <p id="feature2Desc" class="text-gray-400 text-xs leading-relaxed">All subscriptions are official and verified. Full warranty support throughout your subscription period.</p>
+        </div>
+
+        <!-- Feature Card 3 -->
+        <div class="glass-card p-6 rounded-2xl border border-gray-800/80">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mb-5">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <h3 id="feature3Title" class="text-lg font-bold text-white mb-2">Dedicated Customer Support</h3>
+          <p id="feature3Desc" class="text-gray-400 text-xs leading-relaxed">Our support team is available on WhatsApp to answer your questions and guide you step by step.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto border-t border-gray-800/60">
+      <div class="text-center mb-10">
+        <h2 id="faqTitle" class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Frequently Asked Questions</h2>
+        <p id="faqSub" class="text-gray-400 text-sm">Everything you need to know about purchasing and activating your subscriptions.</p>
+      </div>
+
+      <div class="space-y-4" id="faqContainer">
+        <!-- Rendered dynamically -->
+      </div>
+    </section>
+
+    <!-- REVIEWS SECTION -->
+    <section id="reviews" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-gray-800/60">
+      <div class="text-center max-w-xl mx-auto mb-10">
+        <h2 id="reviewsTitle" class="text-2xl sm:text-3xl font-extrabold text-white mb-2">Customer Feedback</h2>
+        <p id="reviewsSub" class="text-gray-400 text-sm">Real reviews from our satisfied clients across Egypt.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-5 rounded-xl border border-gray-800">
+          <div class="flex items-center gap-1 text-amber-400 mb-3">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p id="rev1Text" class="text-gray-300 text-xs leading-relaxed mb-4">"Extremely fast service! I activated Gemini Pro in less than 10 minutes. Highly recommended!"</p>
+          <div class="text-xs font-bold text-white">Ahmed M.</div>
+          <div class="text-[10px] text-gray-500">Verified Buyer</div>
+        </div>
+
+        <div class="glass-card p-5 rounded-xl border border-gray-800">
+          <div class="flex items-center gap-1 text-amber-400 mb-3">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p id="rev2Text" class="text-gray-300 text-xs leading-relaxed mb-4">"Canva Pro works perfectly on my official account. Great price compared to the official subscription."</p>
+          <div class="text-xs font-bold text-white">Sarah K.</div>
+          <div class="text-[10px] text-gray-500">Verified Buyer</div>
+        </div>
+
+        <div class="glass-card p-5 rounded-xl border border-gray-800">
+          <div class="flex items-center gap-1 text-amber-400 mb-3">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          </div>
+          <p id="rev3Text" class="text-gray-300 text-xs leading-relaxed mb-4">"Super helpful support team on WhatsApp. They guided me until ChatGPT Plus was completely activated."</p>
+          <div class="text-xs font-bold text-white">Omar H.</div>
+          <div class="text-[10px] text-gray-500">Verified Buyer</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- SINGLE UNIVERSAL SERVICE MODAL -->
+  <div id="serviceModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm hidden transition-opacity duration-200">
+    <div class="glass-card w-full max-w-lg rounded-2xl p-6 sm:p-8 border border-gray-800 shadow-2xl relative flex flex-col max-h-[90vh] overflow-y-auto">
+      
+      <!-- Modal Close Button -->
+      <button onclick="closeModal()" class="absolute top-4 right-4 rtl:right-auto rtl:left-4 p-2 rounded-lg bg-gray-800/80 hover:bg-gray-700 text-gray-400 hover:text-white transition-colors">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+
+      <!-- Modal Content Header -->
+      <div class="flex items-center gap-4 mb-5">
+        <div id="modalIconContainer" class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center flex-shrink-0">
+          <!-- Icon injected dynamically -->
+        </div>
+        <div>
+          <h3 id="modalTitle" class="text-xl font-bold text-white mb-0.5">Service Title</h3>
+          <span id="modalCategory" class="inline-block px-2.5 py-0.5 rounded-md bg-gray-800 text-gray-400 text-[10px] font-semibold uppercase tracking-wider">Category</span>
+        </div>
+      </div>
+
+      <!-- Pricing Badge -->
+      <div class="mb-5 p-3 rounded-xl bg-gray-900/80 border border-gray-800 flex items-center justify-between">
+        <span id="modalPriceLabel" class="text-xs text-gray-400">Subscription Rate:</span>
+        <span id="modalPrice" class="text-base font-extrabold text-blue-400">0 EGP</span>
+      </div>
+
+      <!-- Full Description -->
+      <p id="modalDescription" class="text-gray-300 text-xs sm:text-sm leading-relaxed mb-6">Detailed description goes here...</p>
+
+      <!-- Features List -->
+      <div class="mb-6">
+        <h4 id="modalFeaturesTitle" class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Included Benefits</h4>
+        <ul id="modalFeaturesList" class="space-y-2 text-xs text-gray-300">
+          <!-- List items injected -->
+        </ul>
+      </div>
+
+      <!-- Ordering Instructions -->
+      <div class="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 mb-6">
+        <p id="modalInstruction" class="text-xs text-blue-300 leading-relaxed">
+          Click the button below to message our team on WhatsApp with your pre-formatted order details for fast processing.
+        </p>
+      </div>
+
+      <!-- Modal Footer Action Buttons -->
+      <div class="flex items-center gap-3 mt-auto pt-2 border-t border-gray-800">
+        <button onclick="closeModal()" id="modalCloseBtnText" class="w-1/3 py-3 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold text-xs transition-all">
+          Close
+        </button>
+        <a id="modalBuyBtn" href="#" target="_blank" class="w-2/3 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/20 transition-all active:scale-95">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/>
+          </svg>
+          <span id="modalBuyBtnText">Order via WhatsApp</span>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="bg-gray-950 border-t border-gray-900 py-12 px-4 sm:px-6 lg:px-8 mt-20">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <!-- Brand & Copyright -->
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white text-sm">T</div>
+        <div class="text-xs text-gray-500">
+          &copy; <span id="copyrightYear"></span> Tech Pro Media. All rights reserved.
+        </div>
+      </div>
+
+      <!-- Footer Quick Info -->
+      <div class="flex items-center gap-6 text-xs text-gray-400">
+        <a href="#services" class="hover:text-blue-400 transition-colors">Services</a>
+        <a href="#faq" class="hover:text-blue-400 transition-colors">Support</a>
+        <a href="https://wa.me/201152187945" target="_blank" class="hover:text-emerald-400 transition-colors flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+          WhatsApp 24/7
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- JAVASCRIPT APP LOGIC -->
+  <script>
+    // Configuration & State
+    const SUPPORT_WHATSAPP = "201152187945";
+    let currentLang = 'en';
+    let currentCategory = 'all';
+    let searchQuery = '';
+
+    // Services Database
+    const servicesData = [
+      {
+        id: 'gemini',
+        category: 'ai',
+        badge: { en: 'Best Value', ar: 'الأعلى توفيراً' },
+        title: { en: 'Gemini Pro', ar: 'جيميني برو' },
+        price: { en: '150 EGP / 18 Months', ar: '150 جنيه / 18 شهر' },
+        description: {
+          en: 'Get full access to Google\'s advanced AI capabilities with enhanced reasoning, coding help, and large context windows for 18 months.',
+          ar: 'وصول كامل لأحدث نماذج الذكاء الاصطناعي من جوجل مع قدرات متقدمة في التحليل والبرمجة وكتابة النصوص لمدة 18 شهراً كاملة.'
+        },
+        features: {
+          en: ['18 Months Extended Validity', 'Advanced Reasoning & Math', 'Fast Processing Speeds', 'Full Guarantee Included'],
+          ar: ['صلاحية ممتدة لمدة 18 شهراً', 'قدرات فائقة في البرمجة والتحليل', 'سرعة إجابة استثنائية', 'ضمان كامل طوال فترة الاشتراك']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>`
+      },
+      {
+        id: 'chatgpt',
+        category: 'ai',
+        badge: { en: 'Most Popular', ar: 'الأكثر طلباً' },
+        title: { en: 'ChatGPT Plus', ar: 'شات جي بي تي بلس' },
+        price: { en: '200 EGP / Month', ar: '200 جنيه / شهر' },
+        description: {
+          en: 'Experience GPT-4o, GPT-o1, DALL-E 3 image generation, priority access, and custom GPTs for 1 month.',
+          ar: 'استمتع بنماذج GPT-4o و GPT-o1 وصناعة الصور عبر DALL-E 3 وأولوية الاستجابة والوصول للـ Custom GPTs لمدة شهر.'
+        },
+        features: {
+          en: ['Access to GPT-4o & GPT-o1', 'DALL-E 3 Image Generation', 'Code Interpreter & Data Analysis', 'Instant Account Activation'],
+          ar: ['وصول لأحدث نماذج GPT-4o و GPT-o1', 'إنشاء الصور الاحترافية بـ DALL-E 3', 'تحليل البيانات والأكواد البرمجية', 'تفعيل سريع ومباشر']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>`
+      },
+      {
+        id: 'canva',
+        category: 'creative',
+        badge: { en: 'Huge Savings', ar: 'توفير هائل' },
+        title: { en: 'Canva Pro', ar: 'كانفا برو' },
+        price: { en: '300 EGP / Year', ar: '300 جنيه / سنة' },
+        description: {
+          en: 'Unlock premium design assets, background remover, brand kits, and millions of premium stock photos for a full year.',
+          ar: 'افتح ملايين القوالب والصور الاحترافية وأداة إزالة الخلفية بضغطة زر مع اشتراك رسمي كامل لمدة سنة.'
+        },
+        features: {
+          en: ['1 Year Full Access', '100M+ Premium Stock Photos & Videos', 'One-click Background Remover', 'Brand Kit & Premium Fonts'],
+          ar: ['وصول كامل لمدة سنة كاملة', 'أكثر من 100 مليون عنصر وصورة بريميوم', 'إزالة خلفية الصور بضغطة واحدة', 'خطوط احترافية ومساحة سحابية']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`
+      },
+      {
+        id: 'duolingo',
+        category: 'learning',
+        badge: { en: 'Quick Plan', ar: 'اشتراك سريع' },
+        title: { en: 'Super Duolingo', ar: 'سوبر دوولينجو' },
+        price: { en: '100 EGP / Week', ar: '100 جنيه / أسبوع' },
+        description: {
+          en: 'Accelerate your language learning with zero ads, unlimited hearts, and unlimited progress skill test-outs.',
+          ar: 'تعلم اللغات بدون إعلانات وبقلوب غير محدودة واختبارات المستوى المفتوحة لتسريع تعلمك.'
+        },
+        features: {
+          en: ['Unlimited Hearts & Mistakes', 'Ad-Free Learning', 'Unlimited Skill Test-Outs', 'Personalized Mistakes Review'],
+          ar: ['قلوب وأخطاء غير محدودة', 'تجربة تعلم خالية من الإعلانات', 'تجاوز المستويات بحرية', 'مراجعة شخصية للأخطاء']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 01-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>`
+      },
+      {
+        id: 'whatsapp',
+        category: 'utility',
+        badge: { en: 'Custom Plan', ar: 'باقة خاصة' },
+        title: { en: 'WhatsApp Plus', ar: 'واتساب بلس' },
+        price: { en: 'Special Price / Contact Us', ar: 'سعر خاص / تواصل معنا' },
+        description: {
+          en: 'Advanced privacy customization, extended media sharing limits, anti-delete status, and custom themes.',
+          ar: 'مميزات متقدمة في الخصوصية، إخفاء حالة الاتصال، منع حذف الرسائل وحالات الأصدقاء، ورفع حدود الميديا.'
+        },
+        features: {
+          en: ['Anti-Delete Messages & Statuses', 'Custom Interface Themes', 'High Quality Media Sharing', 'Full Privacy Control'],
+          ar: ['منع حذف الرسائل والحالات', 'ثيمات وواجهات خاصة', 'إرسال الوسائط بجودة عالية', 'تحكم كامل بخصوصية الظهور']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"/></svg>`
+      },
+      {
+        id: 'telegram',
+        category: 'utility',
+        badge: { en: 'Fast Speed', ar: 'سرعة فائقة' },
+        title: { en: 'Telegram Premium', ar: 'تليجرام بريميوم' },
+        price: { en: '100 EGP / Month', ar: '100 جنيه / شهر' },
+        description: {
+          en: 'Enjoy 4GB file uploads, faster download speed, voice-to-text conversion, premium stickers, and dynamic badges.',
+          ar: 'رفع ملفات حتى 4 جيجابايت، سرعة تنزيل قصوى، تحويل الصوت إلى نصوص، ملصقات بريميوم وشارة توثيق.'
+        },
+        features: {
+          en: ['4GB File Upload Limit', 'Maximum Download Speed', 'Voice-to-Text Audio Conversion', 'Exclusive Animated Stickers'],
+          ar: ['رفع ملفات بحجم يصل إلى 4 جيجا', 'أقصى سرعة تحكم في التنزيل', 'تحويل الملاحظات الصوتية لنص', 'ملصقات وتفاعلات حصرية']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>`
+      },
+      {
+        id: 'truecaller',
+        category: 'utility',
+        badge: { en: 'Budget Pick', ar: 'اقتصادي' },
+        title: { en: 'Truecaller Pro', ar: 'تروكولر برو' },
+        price: { en: '50 EGP / Month', ar: '50 جنيه / شهر' },
+        description: {
+          en: 'Identify unknown callers, automatically block spam & scam calls, view profiles incognito, and get a Pro badge.',
+          ar: 'كشف هوية المتصلين، حظر المكالمات المزعجة تلقائياً، معرفة من زار بروفايلك وتصفح الأرقام بشكل خفي.'
+        },
+        features: {
+          en: ['Advanced Spam Blocking', 'Who Viewed My Profile', 'Incognito Mode Browsing', 'Pro Badge Indicator'],
+          ar: ['حظر الاتصالات المزعجة والاحتيال', 'معرفة من زار ملفك الشخصي', 'وضع التصفح الخفي للبحث', 'شارة الحساب الاحترافي']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>`
+      },
+      {
+        id: 'youtube',
+        category: 'creative',
+        badge: { en: 'Trending', ar: 'شائع' },
+        title: { en: 'YouTube Premium', ar: 'يوتيوب بريميوم' },
+        price: { en: '100 EGP / Month', ar: '100 جنيه / شهر' },
+        description: {
+          en: 'Watch uninterrupted videos without ads, background playback, offline downloads, and YouTube Music Premium included.',
+          ar: 'مشاهدة فيديوهات بدون أي إعلانات، تشغيل أثناء قفل الشاشة، تحميل الفيديو للمشاهدة بدون إنترنت ومع تطبيق YouTube Music.'
+        },
+        features: {
+          en: ['Ad-Free Video Playback', 'Background & Screen-off Play', 'YouTube Music Premium Included', 'Offline Video Downloads'],
+          ar: ['مشاهدة خالية تماماً من الإعلانات', 'تشغيل في الخلفية وعند إغلاق الشاشة', 'تطبيق YouTube Music بريميوم', 'تحميل الفيديوهات للمشاهدة أوفلاين']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`
+      },
+      {
+        id: 'capcut',
+        category: 'creative',
+        badge: { en: 'Creator Choice', ar: 'خيار صانع المحتوى' },
+        title: { en: 'CapCut Pro', ar: 'كاب كات برو' },
+        price: { en: '300 EGP / Month', ar: '300 جنيه / شهر' },
+        description: {
+          en: 'Access premium video editing tools, AI auto-captions, exclusive video transitions, and 4K 60fps export presets.',
+          ar: 'افتح أدوات المونتاج الاحترافية، إنشاء التسميات التوضيحية بالذكاء الاصطناعي، انتقالات بريميوم وتصدير 4K.'
+        },
+        features: {
+          en: ['Pro Video Effects & Transitions', 'AI Auto Caption Generator', 'Cloud Storage Space', '4K 60fps Export Quality'],
+          ar: ['تأثيرات وانتقالات المونتاج الاحترافية', 'توليد الكتابة التلقائية الذكية', 'مساحة تخزين سحابية', 'تصدير الفيديو بجودة 4K 60fps']
+        },
+        svgIcon: `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`
+      }
+    ];
+
+    // UI Translation Dictionary
+    const translations = {
+      en: {
+        langBtn: "العربية",
+        headerSupport: "WhatsApp Support",
+        heroBadge: "Official & Fast Digital Services",
+        heroTitle: "Elevate Your Digital Workflow With Premium Subscriptions",
+        heroDesc: "Get instant access to top AI models, creative suites, streaming platforms, and utility apps at guaranteed lowest prices. Fast delivery and 24/7 dedicated support.",
+        heroExplore: "Browse All Subscriptions",
+        heroSupport: "Chat On WhatsApp",
+        trust1: "Guaranteed Subscriptions",
+        trust2: "Average Activation Speed",
+        trust3: "WhatsApp Live Support",
+        trust4: "Unbeatable Market Rates",
+        servicesTitle: "Available Subscriptions",
+        servicesSub: "Explore our verified catalog and order instantly via WhatsApp.",
+        searchPlaceholder: "Search services...",
+        emptyTitle: "No services found",
+        emptyDesc: "Try searching for another keyword or change your category filter.",
+        detailsBtn: "View Details",
+        buyBtn: "Order via WhatsApp",
+        whyTitle: "Why Tech Pro Media?",
+        whyDesc: "We provide reliable digital subscriptions with total transparency, speed, and safety.",
+        feature1Title: "Instant Delivery",
+        feature1Desc: "Subscriptions are processed quickly after purchase so you can start using your plan without unnecessary delays.",
+        feature2Title: "100% Guaranteed & Safe",
+        feature2Desc: "All subscriptions are official and verified. Full warranty support throughout your subscription period.",
+        feature3Title: "Dedicated Customer Support",
+        feature3Desc: "Our support team is available on WhatsApp to answer your questions and guide you step by step.",
+        faqTitle: "Frequently Asked Questions",
+        faqSub: "Everything you need to know about purchasing and activating your subscriptions.",
+        reviewsTitle: "Customer Feedback",
+        reviewsSub: "Real reviews from our satisfied clients across Egypt.",
+        rev1Text: '"Extremely fast service! I activated Gemini Pro in less than 10 minutes. Highly recommended!"',
+        rev2Text: '"Canva Pro works perfectly on my official account. Great price compared to the official subscription."',
+        rev3Text: '"Super helpful support team on WhatsApp. They guided me until ChatGPT Plus was completely activated."',
+        modalInstruction: "Click the button below to message our team on WhatsApp with your pre-formatted order details for fast processing.",
+        modalCloseBtn: "Close",
+        modalBuyBtnText: "Order via WhatsApp",
+        modalPriceLabel: "Subscription Rate:",
+        modalBenefits: "Included Benefits",
+        categories: {
+          all: 'All Services',
+          ai: 'AI Tools',
+          creative: 'Creative & Media',
+          utility: 'Utility & Security',
+          learning: 'Learning'
+        }
+      },
+      ar: {
+        langBtn: "English",
+        headerSupport: "الدعم عبر الواتساب",
+        heroBadge: "خدمات رقمية موثوقة وسريعة",
+        heroTitle: "ارتقِ بأعمالك وتجربتك الرقمية مع أفضل الاشتراكات",
+        heroDesc: "احصل على اشتراكات الذكاء الاصطناعي، التصميم، والبرامج بأفضل الأسعار المتاحة في مصر. تفعيل سريع وضمان كامل مع دعم فني متواصل عبر الواتساب.",
+        heroExplore: "تصفح كل الاشتراكات",
+        heroSupport: "تحدث معنا عبر الواتساب",
+        trust1: "اشتراكات مضمونة 100%",
+        trust2: "متوسط سرعة التفعيل",
+        trust3: "دعم مباشر عبر الواتساب",
+        trust4: "أفضل أسعار في السوق",
+        servicesTitle: "الخدمات والاشتراكات المتاحة",
+        servicesSub: "اختر الخدمة التي تناسبك واطلبها مباشرة عبر الواتساب.",
+        searchPlaceholder: "ابحث عن خدمة...",
+        emptyTitle: "لم نتمكن من العثور على أي نتائج",
+        emptyDesc: "جرب البحث بكلمات أخرى أو اختر قسماً مختلفاً من الأعلى.",
+        detailsBtn: "عرض التفاصيل",
+        buyBtn: "طلب عبر الواتساب",
+        whyTitle: "لماذا تختار تك بروميديا؟",
+        whyDesc: "نقدم اشتراكات رقمية رسمية وموثوقة مع التزام كامل بالسرعة والأمان.",
+        feature1Title: "سرعة في التفعيل",
+        feature1Desc: "يتم تجهيز وتفعيل اشتراكك فور إتمام الطلب لتستمتع بالخدمة دون أي انتظار معقد.",
+        feature2Title: "مضمون وآمن 100%",
+        feature2Desc: "جميع اشتراكاتنا رسمية ونوفر ضماناً كاملاً طوال مدة الاشتراك لراحة بالك.",
+        feature3Title: "دعم فني متواصل",
+        feature3Desc: "فريق الدعم الفني متواجد عبر الواتساب للإجابة على استفساراتك ومساعدتك خطوة بخطوة.",
+        faqTitle: "الأسئلة الشائعة",
+        faqSub: "كل ما تحتاج معرفته عن طريقة الشراء والتفعيل.",
+        reviewsTitle: "آراء عملائنا",
+        reviewsSub: "تقييمات حقيقية من عملائنا في جميع أنحاء مصر.",
+        rev1Text: '"خدمة ممتازة وسريعة جداً! فعلت جيميني برو في أقل من 10 دقائق. أنصح بالتعامل معهم جداً."',
+        rev2Text: '"اشتراك كانفا برو شغال ممتاز على إيميلي الشخصي والسعر أفضل بكتير من الاشتراك المباشر."',
+        rev3Text: '"فريق الدعم محترم جداً على الواتساب وتابعوا معايا لحد ما فعلت شات جي بي تي بلس بنجاح."',
+        modalInstruction: "اضغط على الزر بالأسفل للتواصل معنا عبر الواتساب مع تجهيز تفاصيل طلبك تلقائياً.",
+        modalCloseBtn: "إغلاق",
+        modalBuyBtnText: "طلب عبر الواتساب",
+        modalPriceLabel: "قيمة الاشتراك:",
+        modalBenefits: "مميزات الاشتراك",
+        categories: {
+          all: 'جميع الخدمات',
+          ai: 'أدوات الذكاء الاصطناعي',
+          creative: 'التصميم والتطبيقات',
+          utility: 'الأدوات والخصوصية',
+          learning: 'التعليم واللغات'
+        }
+      }
+    };
+
+    // FAQ Data
+    const faqData = [
+      {
+        q: { en: "How long does activation take after ordering?", ar: "كم يستغرق تفعيل الاشتراك بعد الطلب؟" },
+        a: { en: "Most activations are completed within 5 to 15 minutes during work hours after confirming payment on WhatsApp.", ar: "يتم التفعيل عادة في غضون 5 إلى 15 دقيقة فقط خلال أوقات العمل بعد تأكيد الطلب على الواتساب." }
+      },
+      {
+        q: { en: "Are these subscriptions official and safe?", ar: "هل الاشتراكات رسمية وآمنة؟" },
+        a: { en: "Yes, 100%. All accounts and activations are 100% official and guaranteed for the full duration of your chosen period.", ar: "نعم 100%. جميع الاشتراكات رسمية وتعمل بكفاءة كاملة مع ضمان شامل طوال فترة الاشتراك." }
+      },
+      {
+        q: { en: "How do I make a payment?", ar: "ما هي طرق الدفع المتاحة؟" },
+        a: { en: "We support Vodafone Cash, InstaPay, and local bank transfers. Our team will send payment details directly on WhatsApp.", ar: "نوفر الدفع عبر فودافون كاش، إنستا باي (InstaPay)، والتحويلات البنكية. يزودك فريق الدعم بالتفاصيل فوراً عبر الواتساب." }
+      }
+    ];
+
+    // Render Category Pills
+    function renderCategories() {
+      const container = document.getElementById('categoryContainer');
+      const cats = ['all', 'ai', 'creative', 'utility', 'learning'];
+      
+      container.innerHTML = cats.map(cat => {
+        const isActive = currentCategory === cat;
+        const label = translations[currentLang].categories[cat];
+        return `
+          <button onclick="setCategory('${cat}')" class="px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all ${
+            isActive 
+              ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20' 
+              : 'bg-gray-900/80 text-gray-400 hover:text-white border border-gray-800'
+          }">
+            ${label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // Render Services Grid
+    function renderServices() {
+      const grid = document.getElementById('servicesGrid');
+      const emptyState = document.getElementById('emptyState');
+
+      const filtered = servicesData.filter(srv => {
+        const matchesCategory = currentCategory === 'all' || srv.category === currentCategory;
+        const titleText = srv.title[currentLang].toLowerCase();
+        const descText = srv.description[currentLang].toLowerCase();
+        const query = searchQuery.toLowerCase();
+        const matchesSearch = titleText.includes(query) || descText.includes(query);
+        return matchesCategory && matchesSearch;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.innerHTML = filtered.map(srv => {
+        const badge = srv.badge[currentLang];
+        const title = srv.title[currentLang];
+        const price = srv.price[currentLang];
+        const desc = srv.description[currentLang];
+        
+        return `
+          <div class="glass-card rounded-2xl p-6 border border-gray-800 flex flex-col justify-between group transition-all duration-200 hover:-translate-y-1">
+            <div>
+              <!-- Card Top Header -->
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-11 h-11 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-105 transition-transform">
+                  ${srv.svgIcon}
+                </div>
+                <span class="px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] font-bold tracking-wide">
+                  ${badge}
+                </span>
+              </div>
+
+              <!-- Title & Price -->
+              <h3 class="text-xl font-bold text-white mb-1 group-hover:text-blue-400 transition-colors">${title}</h3>
+              <div class="text-sm font-extrabold text-blue-400 mb-3">${price}</div>
+              
+              <!-- Short Description -->
+              <p class="text-gray-400 text-xs leading-relaxed mb-6 line-clamp-2">${desc}</p>
+            </div>
+
+            <!-- Card Actions -->
+            <div class="grid grid-cols-2 gap-2 pt-4 border-t border-gray-800/80">
+              <button onclick="openModal('${srv.id}')" class="w-full py-2.5 rounded-xl bg-gray-800/90 hover:bg-gray-700 text-gray-200 text-xs font-semibold border border-gray-700/60 transition-all">
+                ${translations[currentLang].detailsBtn}
+              </button>
+
+              <a href="${getWhatsAppUrl(srv)}" target="_blank" class="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 transition-all active:scale-95">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654z"/></svg>
+                <span>${translations[currentLang].buyBtn}</span>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Render FAQs
+    function renderFAQs() {
+      const container = document.getElementById('faqContainer');
+      container.innerHTML = faqData.map((item, idx) => `
+        <div class="glass-card rounded-xl border border-gray-800 overflow-hidden transition-all">
+          <button onclick="toggleFAQ(${idx})" class="w-full p-4 text-left rtl:text-right flex items-center justify-between gap-4 font-semibold text-sm text-white hover:text-blue-400 transition-colors">
+            <span>${item.q[currentLang]}</span>
+            <svg id="faqIcon-${idx}" class="w-4 h-4 text-gray-500 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+          <div id="faqAnswer-${idx}" class="hidden p-4 pt-0 text-xs text-gray-400 leading-relaxed border-t border-gray-800/40">
+            ${item.a[currentLang]}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Toggle FAQ Accordion
+    function toggleFAQ(idx) {
+      const ans = document.getElementById(`faqAnswer-${idx}`);
+      const icon = document.getElementById(`faqIcon-${idx}`);
+      const isHidden = ans.classList.contains('hidden');
+      
+      // Close all others
+      faqData.forEach((_, i) => {
+        document.getElementById(`faqAnswer-${i}`).classList.add('hidden');
+        document.getElementById(`faqIcon-${i}`).classList.remove('rotate-180');
+      });
+
+      if (isHidden) {
+        ans.classList.remove('hidden');
+        icon.classList.add('rotate-180');
+      }
+    }
+
+    // WhatsApp Message Link Generator
+    function getWhatsAppUrl(srv) {
+      const name = srv.title[currentLang];
+      const price = srv.price[currentLang];
+      const message = currentLang === 'en'
+        ? `Hello Tech Pro Media! I would like to purchase:\n- Service: ${name}\n- Price: ${price}\nPlease send payment details.`
+        : `أهلاً تك بروميديا! أريد الحصول على خدمة:\n- الخدمة: ${name}\n- السعر: ${price}\nيرجى إرسال تفاصيل الدفع لتأكيد الطلب.`;
+      
+      return `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(message)}`;
+    }
+
+    // Modal Manager (Strict single lifecycle)
+    function openModal(id) {
+      const srv = servicesData.find(s => s.id === id);
+      if (!srv) return;
+
+      const modal = document.getElementById('serviceModal');
+      
+      // Populate Modal Content
+      document.getElementById('modalTitle').innerText = srv.title[currentLang];
+      document.getElementById('modalCategory').innerText = translations[currentLang].categories[srv.category];
+      document.getElementById('modalPrice').innerText = srv.price[currentLang];
+      document.getElementById('modalPriceLabel').innerText = translations[currentLang].modalPriceLabel;
+      document.getElementById('modalDescription').innerText = srv.description[currentLang];
+      document.getElementById('modalIconContainer').innerHTML = srv.svgIcon;
+      document.getElementById('modalInstruction').innerText = translations[currentLang].modalInstruction;
+      document.getElementById('modalCloseBtnText').innerText = translations[currentLang].modalCloseBtn;
+      document.getElementById('modalBuyBtnText').innerText = translations[currentLang].modalBuyBtnText;
+      document.getElementById('modalFeaturesTitle').innerText = translations[currentLang].modalBenefits;
+
+      // Features List
+      const listContainer = document.getElementById('modalFeaturesList');
+      listContainer.innerHTML = srv.features[currentLang].map(f => `
+        <li class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+          <span>${f}</span>
+        </li>
+      `).join('');
+
+      // WhatsApp CTA
+      document.getElementById('modalBuyBtn').href = getWhatsAppUrl(srv);
+
+      // Lock Body Scroll & Display Modal
+      document.body.style.overflow = 'hidden';
+      modal.classList.remove('hidden');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('serviceModal');
+      modal.classList.add('hidden');
+      document.body.style.overflow = 'auto';
+    }
+
+    // Event listeners for ESC key & Backdrop Click
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    document.getElementById('serviceModal').addEventListener('click', (e) => {
+      if (e.target.id === 'serviceModal') closeModal();
+    });
+
+    // Category & Search Handlers
+    function setCategory(cat) {
+      currentCategory = cat;
+      renderCategories();
+      renderServices();
+    }
+
+    function handleSearch() {
+      searchQuery = document.getElementById('searchInput').value;
+      renderServices();
+    }
+
+    // Language Toggle
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'ar' : 'en';
+      document.documentElement.dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+      document.documentElement.lang = currentLang;
+
+      // Update static texts
+      const t = translations[currentLang];
+      document.getElementById('langBtnText').innerText = t.langBtn;
+      document.getElementById('headerSupportText').innerText = t.headerSupport;
+      document.getElementById('heroBadge').innerText = t.heroBadge;
+      document.getElementById('heroTitle').innerText = t.heroTitle;
+      document.getElementById('heroDesc').innerText = t.heroDesc;
+      document.getElementById('heroExploreText').innerText = t.heroExplore;
+      document.getElementById('heroSupportText').innerText = t.heroSupport;
+
+      document.getElementById('trust1').innerText = t.trust1;
+      document.getElementById('trust2').innerText = t.trust2;
+      document.getElementById('trust3').innerText = t.trust3;
+      document.getElementById('trust4').innerText = t.trust4;
+
+      document.getElementById('servicesTitle').innerText = t.servicesTitle;
+      document.getElementById('servicesSub').innerText = t.servicesSub;
+      document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+
+      document.getElementById('emptyTitle').innerText = t.emptyTitle;
+      document.getElementById('emptyDesc').innerText = t.emptyDesc;
+
+      document.getElementById('whyTitle').innerText = t.whyTitle;
+      document.getElementById('whyDesc').innerText = t.whyDesc;
+      document.getElementById('feature1Title').innerText = t.feature1Title;
+      document.getElementById('feature1Desc').innerText = t.feature1Desc;
+      document.getElementById('feature2Title').innerText = t.feature2Title;
+      document.getElementById('feature2Desc').innerText = t.feature2Desc;
+      document.getElementById('feature3Title').innerText = t.feature3Title;
+      document.getElementById('feature3Desc').innerText = t.feature3Desc;
+
+      document.getElementById('faqTitle').innerText = t.faqTitle;
+      document.getElementById('faqSub').innerText = t.faqSub;
+
+      document.getElementById('reviewsTitle').innerText = t.reviewsTitle;
+      document.getElementById('reviewsSub').innerText = t.reviewsSub;
+      document.getElementById('rev1Text').innerText = t.rev1Text;
+      document.getElementById('rev2Text').innerText = t.rev2Text;
+      document.getElementById('rev3Text').innerText = t.rev3Text;
+
+      // Re-render components
+      renderCategories();
+      renderServices();
+      renderFAQs();
+    }
+
+    // App Initialization
+    window.onload = function() {
+      document.getElementById('copyrightYear').innerText = new Date().getFullYear();
+      renderCategories();
+      renderServices();
+      renderFAQs();
+    };
+  </script>
+</body>
+</html>
+```
